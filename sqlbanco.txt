@@ -1,0 +1,48 @@
+CREATE TABLE venda (
+	id SERIAL PRIMARY KEY,
+	cliente_id INT NOT NULL,
+	desconto INT NOT NULL,
+	forma_pagamento INT NOT NULL,
+	"data" TIMESTAMP NOT NULL
+);
+
+CREATE TABLE produto(
+	id SERIAL PRIMARY KEY,
+	preco_venda DECIMAL(10,2) NOT NULL,
+	min_estoque SMALLINT NOT NULL,
+	nome VARCHAR(45) NOT NULL,
+	foto VARCHAR(45) DEFAULT NULL
+);
+
+CREATE TABLE fornecedor(
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(45) NOT NULL,
+	telefone VARCHAR(45) NOT NULL,
+	contato VARCHAR(45) NOT NULL
+);
+
+CREATE TABLE fornecedor_has_produto(
+	fornecedor_id INT NOT NULL,
+	produto_id INT NOT NULL,
+	estoque INT NOT NULL,
+	preco_custo DECIMAL(10,2) NOT NULL,
+	FOREIGN KEY (fornecedor_id)
+	REFERENCES fornecedor (id),
+	FOREIGN KEY(produto_id)
+	REFERENCES produto (id)
+);
+
+CREATE TABLE venda_itens(
+	id SERIAL PRIMARY KEY,
+	produto_id INT NOT NULL,
+	venda_id INT NOT NULL,
+	quantidade INT NOT NULL,
+	preco_custo DECIMAL(10,2),
+	preco_unit DECIMAL(10,2),
+	FOREIGN KEY (produto_id)
+	REFERENCES produto (id),
+	FOREIGN KEY (venda_id)
+	REFERENCES venda (id)
+);
+
+
